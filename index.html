@@ -2,12 +2,12 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<title>サンプル - MathJaxを使って、Web上に数式を表示 - TeX入門</title>
+<title>Zero-determinant strategies in repeated game</title>
 <script>
 MathJax = {
   tex: {
     inlineMath: [['$', '$'], ['\\(', '\\)']],
-	processEscapes: true,
+  processEscapes: true,
     tags: 'ams',
     macros: {
       ssqrt: ['\\sqrt{\\smash[b]{\\mathstrut #1}}', 1],
@@ -16,7 +16,7 @@ MathJax = {
       tcperthousand: ['\\unicode{x2030}'],
       tcmu: ['\\unicode{x3bc}'],
       tcohm: ['\\unicode{x3a9}'],
-      bm: ["{\\boldsymbol{#1}}",1],
+      bm: ["{\\boldsymbol{#1}}",1]
     }
   },
   chtml: {
@@ -26,10 +26,18 @@ MathJax = {
   }
 };
 </script>
+<script type="text/javascript" src="./js/article.js"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<link rel="stylesheet" type="text/css" href="./css/style.css">
 </head>
 <body>
-<h1>Zero-determinant strategies</h1>
+<p><font size="5"><b>繰り返しゲームにおけるZero-determinant戦略</b>
+</font></p>
+<p>Zero-determinant strategies in repeated games</p>
+<p>間宮 安曇<br>静岡大学 大学院総合科学技術研究科 工学専攻 数理システム工学コース</p>
+本稿の内容は，A. Mamiya and G. Ichinose, <a href="https://doi.org/10.1101/2020.01.17.910190">Zero-determinant strategies under observation errors in repeated games</a>, 2020（Under Review）で示したZero-determinant（ZD）戦略の導出方法について解説していきます．上の論文では，割引因子（Discount factor）と観測エラー（Observation error）を仮定し，いろいろ解析していますが，本題とはあまり関係ないので，ここでは観測エラーは考えないこととします．観測エラーを仮定する場合でも，遷移行列$M$が変わるだけなので，すぐに適用可能です．この論文で，私が最も重要だと考えている結果は，今回説明するように，割引因子を仮定した繰り返しゲームにおいても，<b>利得の期待値を行列式という数式で記述できた</b>いうことです．このことによって，割引因子付繰り返しゲームでも，PressとDysonらが示したZD戦略の導出ができるようになりました．また，その後の研究でPressらの行列式を使って，研究されてきたものがいくつかあります．最近の私たちの研究では，観測エラーを仮定した場合（割引因子なし）で，その行列式を使って，解析を行ってきました（<a href="https://doi.org/10.1016/j.jtbi.2019.06.009">https://doi.org/10.1016/j.jtbi.2019.06.009</a>）．今回の割引因子付繰り返しゲームにおける私たちの発見で，この解析をさらに観測エラー＆割引因子付繰り返しゲームにも適用することができました．したがって，今回解説する内容は，ZD戦略の研究をより発展させることができると考えています．
+
+
 <h2>繰り返し囚人のジレンマゲーム</h2>
 ２人プレイヤーi$\in\{X,Y\}$の繰り返し囚人のジレンマゲームを考える．ゲームのそれぞれのラウンドで，プレイヤーは，協力（C）か裏切り（D）の行動を選ぶ．プレイヤーの利得は，自分と相手の行動によって決まる．利得行列は
 <table>
@@ -51,23 +59,23 @@ MathJax = {
 </table>
 で与えられる．繰り返し囚人のジレンマゲームを考えているので，$T>R>P>S$と$2R>T+S$を仮定する．このゲームを無限期にわたって繰り返す．
 
-プレイヤーの戦略は，memory-one戦略であると仮定する．この戦略は，前回の自分と相手の行動から今回の行動を確率的に決定する．したがって，プレイヤー$X$の戦略は，
+プレイヤーの戦略は，Memory-one戦略であると仮定する．この戦略は，前回の自分と相手の行動から今回の行動を確率的に決定する．したがって，プレイヤー$X$の戦略は，
 \begin{equation}
-	\bm p =(p_1,p_2,p_3,p_4;p_0)
+	\bm p =(p_{\rm CC},p_{\rm CD},p_{\rm DC},p_{\rm DD};p_0)
 \end{equation}
-と定義する（$0\le p_i\le 1, \in \{ 0,1,2,3,4 \}$）．$p_1$は前回のラウンドで$X$と$Y$が協力したとき，今回，$X$が協力する確率である．$p_2$は前回のラウンドで$X$が協力で，$Y$が裏切りのとき，今回，$X$が協力する確率である．$p_3$は前回のラウンドで$X$が裏切り，$Y$が協力したとき，今回，$X$が協力する確率である．$p_4$は前回のラウンドで$X$と$Y$が裏切りであったとき，今回，$X$が協力する確率である．$p_0$は初期ラウンドで協力する確率である．同様に，プレイヤー$Y$の戦略は，
+と定義する（$0\le p_i\le 1, \in \{ 0,{\rm CC},{\rm CD},{\rm DC},{\rm DD} \}$）．$p_{\rm CC}$は前回のラウンドで$X$と$Y$が協力したとき，今回，$X$が協力する確率である．$p_{\rm CD}$は前回のラウンドで$X$が協力で，$Y$が裏切りのとき，今回，$X$が協力する確率である．$p_{\rm DC}$は前回のラウンドで$X$が裏切り，$Y$が協力したとき，今回，$X$が協力する確率である．$p_{\rm DD}$は前回のラウンドで$X$と$Y$が裏切りであったとき，今回，$X$が協力する確率である．$p_0$は初期ラウンドで協力する確率である．同様に，プレイヤー$Y$の戦略は，
 \begin{equation}
-	\bm q =(q_1,q_2,q_3,q_4;q_0)
+	\bm q =(q_{\rm CC},q_{\rm CD},q_{\rm DC},q_{\rm DD};q_0)
 \end{equation}
 と定義する．
 
 
 <h2>Zero-determinant戦略の導出</h2>
-繰り返しゲームの初期ラウンドを$t=0$とする．また，プレイヤーの戦略は記憶1戦略を採用しているので，$t\ (t \ge 0)$期目の2人プレイヤーのゲームの状態は，
+繰り返しゲームの初期ラウンドを$t=0$とする．また，プレイヤーの戦略はMemory-one戦略を使っているので，$t\ (t \ge 0)$期目の2人プレイヤーのゲームの状態は，
 \begin{equation}\label{def:v}
-	\bm v(t)=(v_1(t),v_2(t),v_3(t),v_4(t))
+	\bm v(t)=(v_{\rm CC}(t),v_{\rm CC}(t),v_{\rm CC}(t),v_{\rm CC}(t))
 \end{equation}
-で与えられる．$v_1(t)$は，$t$期目で，$X$と$Y$が両方ともCであった確率，$v_2(t)$は，$X$がC，$Y$がDであった確率，$v_3(t)$は，$X$がD，$Y$がCであった確率，$v_4(t)$は，$X$がD，$Y$がDであった確率である．また，初期状態は式~\eqref{def:v}より
+で与えられる．$v_{\rm CC}(t)$は，$t$期目で，$X$と$Y$が両方ともCであった確率，$v_{\rm CD}(t)$は，$X$がC，$Y$がDであった確率，$v_{\rm DC}(t)$は，$X$がD，$Y$がCであった確率，$v_{\rm DD}(t)$は，$X$がD，$Y$がDであった確率である．また，初期状態は式\eqref{def:v}より
 \begin{equation}
 	\bm v(0)=(p_0 q_0,p_0 (1-q_0),(1-p_0)q_0,(1-p_0)(1-q_0))
 \end{equation}
@@ -80,10 +88,10 @@ MathJax = {
 \label{eq:M}
   M = \left(
     \begin{array}{cccc}
-      p_1 q_1 & p_1(1-q_1) & (1-p_1)q_1 &(1-p_1)(1-q_1)\\
-      p_2 q_3 & p_2(1-q_3) & (1-p_2)q_3 &(1-p_2)(1-q_3)\\
-      p_3 q_2 & p_3(1-q_2) & (1-p_3)q_2 &(1-p_3)(1-q_2)\\
-      p_4 q_4 & p_4(1-q_4) & (1-p_4)q_4 &(1-p_4)(1-q_4)
+      p_{\rm CC} q_{\rm CC} & p_{\rm CC}(1-q_{\rm CC}) & (1-p_{\rm CC})q_{\rm CC} &(1-p_{\rm CC})(1-q_{\rm CC})\\
+      p_{\rm CD} q_{\rm DC} & p_{\rm CD}(1-q_{\rm DC}) & (1-p_{\rm CD})q_{\rm DC} &(1-p_{\rm CD})(1-q_{\rm DC})\\
+      p_{\rm DC} q_{\rm CD} & p_{\rm DC}(1-q_{\rm CD}) & (1-p_{\rm DC})q_{\rm DC} &(1-p_{\rm DC})(1-q_{\rm CD})\\
+      p_{\rm DD} q_{\rm DD} & p_{\rm DD}(1-q_{\rm DD}) & (1-p_{\rm DD})q_{\rm DD} &(1-p_{\rm DD})(1-q_{\rm DD})
     \end{array}
   \right)
 \end{equation}
@@ -91,14 +99,14 @@ MathJax = {
 \begin{equation}
 	\bm v(t)=\bm v(0) M^t
 \end{equation}
-と表せる．これを\eqref{per-round-payoff_X}に代入すると，
+と表せる．これを式\eqref{per-round-payoff_X}に代入すると，
 \begin{equation}
 \begin{split}
 	s_X&=(1-\delta)\bm v(0)\sum^{\infty} _{t=0} (\delta M)^t \bm S_X^T \\
 	      &=(1-\delta)\bm v(0)(I-\delta M)^{-1}\bm S_X^T
 \end{split}
 \end{equation}
-が得られる\cite{Hilbe2015GamesEconBehav}．ここで，
+が得られる．ここで，
 \begin{eqnarray}\label{eq:u}
 	\bm v^T \equiv (v_1,v_2,v_3,v_4)
 	=(1-\delta)\bm v(0)(I-\delta M)^{-1}
@@ -114,12 +122,14 @@ MathJax = {
     \end{array}
   \right)
 \end{equation}
-$v_1+v_2+v_3+v_4=1$であるので，$\bm v(0)=\bm v^T M_0$が成り立つ．式~\eqref{eq:u}について，$\bm v(0)=\bm v^T M_0$を代入し，両辺に右から$(I-\delta M)$をかけると，
-\begin{equation}\label{eq:u2_2}
+$v_1+v_2+v_3+v_4=1$であるので，$\bm v(0)=\bm v^T M_0$が成り立つ．式\eqref{eq:u}について，$\bm v(0)=\bm v^T M_0$を代入し，両辺に右から$(I-\delta M)$をかけると，
+\begin{equation}
+\label{eq:u2_2}
 	\bm v^T	(I-\delta M)=\bm v^T M_0
 \end{equation}
-が得られる\cite{MamiyaIchinose2020bioRxiv}．式~\eqref{eq:u2_2}と$M^\prime \equiv \delta M+(1-\delta)M_0-I$とする．$Adj(M^\prime)$の4行目をベクトルとして，$\bm u$とおくと，Press-Dysonが行った操作によって，$\bm u$と任意のベクトル$\bm f=(f_1,f_2,f_3,f_4)$の内積は，
-\begin{equation}\label{eq:D_err}
+が得られる\cite{MamiyaIchinose2020bioRxiv}．式\eqref{eq:u2_2}と$M^\prime \equiv \delta M+(1-\delta)M_0-I$とする．$Adj(M^\prime)$の4行目をベクトルとして，$\bm u$とおくと，Press-Dysonが行った操作によって，$\bm u$と任意のベクトル$\bm f=(f_1,f_2,f_3,f_4)$の内積は，
+\begin{equation}
+\label{eq:D_err}
 \bm u\cdot \bm f=
   \left|
     \begin{array}{cccc}
@@ -131,7 +141,7 @@ $v_1+v_2+v_3+v_4=1$であるので，$\bm v(0)=\bm v^T M_0$が成り立つ．式
   \right|
  \equiv D(\bm p,\bm q,\bm f)
 \end{equation}
-と書ける\cite{Press2012PNAS}．さらに，式~\eqref{eq:D_err}を正規化すると，平均分布$\bm v$と$\bm f$の内積が得られる．したがって，プレイヤーXの期待利得は
+と書ける．さらに，式\eqref{eq:D_err}を正規化すると，平均分布$\bm v$と$\bm f$の内積が得られる．したがって，プレイヤーXの期待利得は
 \begin{equation}
 s_X=\bm v \cdot \bm S_X=\frac{\bm u \cdot \bm S_X}{\bm u \cdot \bm 1}
    =\frac{D(\bm p,\bm q,\bm S_X)}{D(\bm p,\bm q,\bm 1)}
@@ -149,7 +159,7 @@ s_Y=\bm v \cdot \bm S_Y=\frac{\bm u \cdot \bm S_Y}{\bm u \cdot \bm 1}
 \begin{equation}\label{eq:linear_eq}
 	\alpha s_X +\beta s_Y +\gamma= 0
 \end{equation}
-の関係を強いることができる．つまり，自分と相手の利得の期待値の関係が線形にさせることができる．また，式~\eqref{liner_eq_2}の右辺の分子は以下の行列式の形で与えられる．
+の関係を強いることができる．つまり，自分と相手の利得の期待値の関係が線形にさせることができる．また，式\eqref{liner_eq_2}の右辺の分子は以下の行列式の形で与えられる．
 \begin{equation}\label{eq:det_numerator}
 \begin{split}
 &D(\bm p,\bm q,\alpha \bm S_X+\beta \bm S_Y+\gamma \bm 1)=\\
@@ -165,7 +175,8 @@ s_Y=\bm v \cdot \bm S_Y=\frac{\bm u \cdot \bm S_Y}{\bm u \cdot \bm 1}
 \end{split}
 \end{equation}
 よって，Zero-determinant戦略は，
-\begin{equation}\label{zd_equation}
+\begin{equation}
+\label{zd_equation}
 \begin{split}
       \delta p_1-1+p_0(1-\delta)&=\alpha R+\beta R+\gamma \\
       \delta p_2-1+p_0(1-\delta)&=\alpha S+\beta T+\gamma \\
